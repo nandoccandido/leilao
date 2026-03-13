@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Veículo - Qatar Leilões</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/wp-content/themes/leilao-saysix-theme/assets/img/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .veiculo-detalhe { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+    .veiculo-detalhe__voltar { display: inline-flex; align-items: center; gap: 6px; color: var(--cor-texto-muted); text-decoration: none; font-size: 14px; margin-bottom: 20px; transition: color .2s; }
+    .veiculo-detalhe__voltar:hover { color: var(--cor-accent); }
+    .veiculo-detalhe__img-container { position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 28px; background: var(--cor-bg-card); }
+    .veiculo-detalhe__img { width: 100%; display: block; border-radius: 16px; }
+    .veiculo-detalhe__badge { position: absolute; top: 16px; left: 16px; background: var(--cor-accent); color: #fff; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+    .veiculo-detalhe__favorito { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,.4); border: none; color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+    .veiculo-detalhe__favorito:hover, .veiculo-detalhe__favorito.ativo { background: var(--cor-accent); }
+
+    .veiculo-detalhe__topo { display: grid; grid-template-columns: 1fr 360px; gap: 28px; margin-bottom: 28px; align-items: start; }
+    @media (max-width: 768px) { .veiculo-detalhe__topo { grid-template-columns: 1fr; } }
+    .veiculo-detalhe__galeria-col { }
+    .veiculo-detalhe__galeria .veiculo-detalhe__img-container { margin-bottom: 10px; }
+    .veiculo-detalhe__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,.5); border: none; color: #fff; font-size: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; z-index: 2; line-height: 1; }
+    .veiculo-detalhe__nav:hover { background: rgba(0,0,0,.75); }
+    .veiculo-detalhe__nav--prev { left: 12px; }
+    .veiculo-detalhe__nav--next { right: 12px; }
+    .veiculo-detalhe__contador { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,.6); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+    .veiculo-detalhe__thumbs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+    .veiculo-detalhe__thumb { width: 80px; height: 56px; object-fit: cover; border-radius: 8px; cursor: pointer; opacity: .5; transition: opacity .2s, border-color .2s; border: 2px solid transparent; flex-shrink: 0; }
+    .veiculo-detalhe__thumb:hover { opacity: .8; }
+    .veiculo-detalhe__thumb.ativo { opacity: 1; border-color: var(--cor-accent); }
+
+    .veiculo-detalhe__header { margin-bottom: 24px; }
+    .veiculo-detalhe__tipo { color: var(--cor-accent); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+    .veiculo-detalhe__titulo { font-family: var(--ff-heading); font-size: 28px; font-weight: 700; color: var(--cor-texto); margin: 0 0 8px; }
+    .veiculo-detalhe__local { color: var(--cor-texto-muted); font-size: 15px; line-height: 1.5; }
+
+    .veiculo-detalhe__specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+    .veiculo-detalhe__spec { background: var(--cor-bg-card); border: 1px solid var(--cor-borda); border-radius: 12px; padding: 16px; text-align: center; }
+    .veiculo-detalhe__spec-icone { font-size: 24px; margin-bottom: 6px; }
+    .veiculo-detalhe__spec-valor { display: block; font-weight: 700; font-size: 16px; color: var(--cor-texto); }
+    .veiculo-detalhe__spec-label { font-size: 12px; color: var(--cor-texto-muted); text-transform: uppercase; letter-spacing: .3px; }
+
+    .veiculo-detalhe__info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    @media (max-width: 600px) { .veiculo-detalhe__info-grid { grid-template-columns: 1fr; } }
+    .veiculo-detalhe__info-item { display: flex; justify-content: space-between; background: var(--cor-bg-card); border: 1px solid var(--cor-borda); border-radius: 10px; padding: 12px 16px; font-size: 14px; }
+    .veiculo-detalhe__info-item span:first-child { color: var(--cor-texto-muted); }
+    .veiculo-detalhe__info-item span:last-child { font-weight: 600; color: var(--cor-texto); }
+
+    .veiculo-detalhe__descricao { background: var(--cor-bg-card); border: 1px solid var(--cor-borda); border-radius: 12px; padding: 24px; margin-top: 24px; }
+    .veiculo-detalhe__descricao h3 { font-size: 16px; font-weight: 600; margin: 0 0 12px; color: var(--cor-texto); }
+    .veiculo-detalhe__descricao-texto { font-size: 14px; line-height: 1.7; color: var(--cor-texto-sec); white-space: pre-line; }
+
+    .veiculo-detalhe__sidebar { display: flex; flex-direction: column; gap: 20px; }
+    .veiculo-detalhe__preco-card { background: var(--cor-bg-card); border: 2px solid var(--cor-accent); border-radius: 16px; padding: 24px; }
+    .veiculo-detalhe__preco-label { font-size: 13px; color: var(--cor-texto-muted); margin-bottom: 4px; }
+    .veiculo-detalhe__preco { font-family: var(--ff-heading); font-size: 32px; font-weight: 800; color: var(--cor-accent); margin: 0; }
+    .veiculo-detalhe__avaliacao { font-size: 14px; color: var(--cor-texto-muted); margin-top: 8px; }
+    .veiculo-detalhe__avaliacao span { text-decoration: line-through; }
+    .veiculo-detalhe__desconto-badge { display: inline-block; background: #16a34a; color: #fff; padding: 3px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-left: 8px; }
+    .veiculo-detalhe__leilao-info { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cor-borda); display: flex; flex-direction: column; gap: 10px; }
+    .veiculo-detalhe__leilao-row { display: flex; justify-content: space-between; font-size: 14px; }
+    .veiculo-detalhe__leilao-row span:first-child { color: var(--cor-texto-muted); }
+    .veiculo-detalhe__leilao-row span:last-child { font-weight: 600; color: var(--cor-texto); }
+
+    .veiculo-detalhe__acoes { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .veiculo-detalhe__btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all .2s; text-decoration: none; }
+    .veiculo-detalhe__btn--primario { background: var(--cor-accent); color: #fff; }
+    .veiculo-detalhe__btn--primario:hover { background: #c4411a; transform: translateY(-1px); }
+    .veiculo-detalhe__btn--secundario { background: var(--cor-bg-card); color: var(--cor-texto); border: 1px solid var(--cor-borda); }
+    .veiculo-detalhe__btn--secundario:hover { border-color: var(--cor-accent); color: var(--cor-accent); }
+
+    .veiculo-detalhe__loading { text-align: center; padding: 80px 20px; color: var(--cor-texto-muted); font-size: 16px; }
+    .veiculo-detalhe__erro { text-align: center; padding: 80px 20px; }
+    .veiculo-detalhe__erro h2 { font-size: 24px; margin-bottom: 12px; }
+    .veiculo-detalhe__erro p { color: var(--cor-texto-muted); margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="/" class="header__logo" aria-label="Qatar Leilões"><img src="/wp-content/themes/leilao-saysix-theme/assets/img/logo-white.svg" alt="Qatar Leilões" height="36" loading="eager"></a>
+      <div class="header__busca">
+        <svg class="header__busca-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" class="header__busca-input" placeholder="Buscar imóveis ou veículos..." onkeydown="if(event.key==='Enter')window.location.href='/?busca='+encodeURIComponent(this.value)">
+      </div>
+      <nav class="header__nav">
+        <button class="btn btn--secundario" onclick="window.location.href='/'">← Voltar</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO -->
+  <div class="veiculo-detalhe" id="conteudo">
+    <div class="veiculo-detalhe__loading" id="loading">
+      Carregando detalhes do veículo...
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo"><img src="/wp-content/themes/leilao-saysix-theme/assets/img/logo-white.svg" alt="Qatar Leilões" height="32"></div>
+          <p class="footer__descricao">Plataforma inteligente para leilões de imóveis e veículos.</p>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 Qatar Leilões. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var veiculoId = params.get('id');
+
+    if (!veiculoId) {
+      mostrarErro();
+    } else {
+      carregarVeiculo(veiculoId);
+    }
+
+    function carregarVeiculo(id) {
+      fetch('/wp-json/leilao/v1/veiculos/' + encodeURIComponent(id))
+        .then(function(res) {
+          if (!res.ok) throw new Error('Não encontrado');
+          return res.json();
+        })
+        .then(function(item) {
+          renderizarVeiculo(item);
+        })
+        .catch(function() {
+          mostrarErro();
+        });
+    }
+
+    function mostrarErro() {
+      document.getElementById('conteudo').innerHTML = '\
+        <div class="veiculo-detalhe__erro">\
+          <h2>Veículo não encontrado</h2>\
+          <p>O veículo que você procura não existe ou foi removido.</p>\
+          <a href="/" class="veiculo-detalhe__btn veiculo-detalhe__btn--primario" style="display:inline-flex;text-decoration:none">← Voltar para a página inicial</a>\
+        </div>';
+    }
+
+    function renderizarVeiculo(item) {
+      var avaliacao = parseFloat(item.valor_avaliacao) || 0;
+      var minimo = parseFloat(item.valor_minimo) || 0;
+      var desconto = avaliacao > 0 ? Math.round((1 - minimo / avaliacao) * 100) : 0;
+      if (desconto < 0) desconto = 0;
+
+      var dataFim = item.fim ? new Date(item.fim) : null;
+      var dataInicio = item.inicio ? new Date(item.inicio) : null;
+      var dataFimFmt = dataFim ? dataFim.toLocaleDateString('pt-BR') : '—';
+      var dataInicioFmt = dataInicio ? dataInicio.toLocaleDateString('pt-BR') : '—';
+
+      var fotos = item.fotos && item.fotos.length ? item.fotos : [];
+      var thumb = item.thumb || '';
+      if (!fotos.length && thumb) fotos = [thumb];
+      if (!fotos.length) fotos = ['https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?w=800&h=450&fit=crop'];
+
+      var local = [item.cidade, item.estado].filter(Boolean).join('/');
+
+      document.title = (item.titulo || 'Veículo') + ' - Qatar Leilões';
+
+      var html = '';
+
+      // Voltar
+      html += '<a href="/" class="veiculo-detalhe__voltar">← Voltar para veículos</a>';
+
+      // === TOPO: galeria + sidebar ===
+      html += '<div class="veiculo-detalhe__topo">';
+      html += '<div class="veiculo-detalhe__galeria-col">';
+
+      // Galeria
+      html += '<div class="veiculo-detalhe__galeria">';
+      html += '  <div class="veiculo-detalhe__img-container">';
+      html += '    <img src="' + esc(fotos[0]) + '" alt="' + esc(item.titulo || '') + '" class="veiculo-detalhe__img" id="fotoAtual">';
+      html += '    <span class="veiculo-detalhe__badge">🔨 Leilão</span>';
+      html += '    <button class="veiculo-detalhe__favorito" onclick="this.classList.toggle(\'ativo\')">♥</button>';
+      if (fotos.length > 1) {
+        html += '    <button class="veiculo-detalhe__nav veiculo-detalhe__nav--prev" onclick="mudarFoto(-1)">‹</button>';
+        html += '    <button class="veiculo-detalhe__nav veiculo-detalhe__nav--next" onclick="mudarFoto(1)">›</button>';
+        html += '    <span class="veiculo-detalhe__contador">1/' + fotos.length + '</span>';
+      }
+      html += '  </div>';
+      if (fotos.length > 1) {
+        html += '  <div class="veiculo-detalhe__thumbs">';
+        for (var fi = 0; fi < fotos.length; fi++) {
+          html += '    <img src="' + esc(fotos[fi]) + '" class="veiculo-detalhe__thumb' + (fi === 0 ? ' ativo' : '') + '" onclick="irParaFoto(' + fi + ')" alt="Foto ' + (fi + 1) + '">';
+        }
+        html += '  </div>';
+      }
+      html += '</div>'; // fim galeria
+
+      // Specs abaixo das fotos
+      html += '<div class="veiculo-detalhe__specs" style="margin-top:16px">';
+      var specs = [
+        { icone: '📅', valor: item.ano || '—', label: 'Ano' },
+        { icone: '🛣️', valor: item.km || 'N/I', label: 'KM' },
+        { icone: '⚙️', valor: item.cambio || '—', label: 'Câmbio' },
+        { icone: '⛽', valor: item.combustivel || '—', label: 'Combustível' },
+        { icone: '🎨', valor: item.cor || '—', label: 'Cor' },
+        { icone: '🔑', valor: item.placa_final ? 'Final ' + item.placa_final : '—', label: 'Placa' },
+      ];
+      specs.forEach(function(s) {
+        html += '<div class="veiculo-detalhe__spec"><div class="veiculo-detalhe__spec-icone">' + s.icone + '</div><span class="veiculo-detalhe__spec-valor">' + esc(s.valor) + '</span><span class="veiculo-detalhe__spec-label">' + s.label + '</span></div>';
+      });
+      html += '</div>';
+
+      html += '</div>'; // fim galeria-col
+
+      // Salvar fotos para navegação
+      window._galeriaFotos = fotos;
+      window._galeriaIndex = 0;
+
+      // === SIDEBAR ===
+      html += '<div class="veiculo-detalhe__sidebar">';
+
+      // Card de preço
+      html += '<div class="veiculo-detalhe__preco-card">';
+      html += '  <div class="veiculo-detalhe__preco-label">Lance mínimo</div>';
+      html += '  <div class="veiculo-detalhe__preco">R$ ' + minimo.toLocaleString('pt-BR', {minimumFractionDigits: 2}) + '</div>';
+      if (avaliacao > 0 && desconto > 0) {
+        html += '  <div class="veiculo-detalhe__avaliacao">Avaliação: <span>R$ ' + avaliacao.toLocaleString('pt-BR', {minimumFractionDigits: 2}) + '</span>';
+        html += '    <span class="veiculo-detalhe__desconto-badge">-' + desconto + '%</span>';
+        html += '  </div>';
+      }
+      html += '  <div class="veiculo-detalhe__leilao-info">';
+      html += '    <div class="veiculo-detalhe__leilao-row"><span>Status</span><span>' + esc(item.status || '—') + '</span></div>';
+      html += '    <div class="veiculo-detalhe__leilao-row"><span>Início</span><span>' + dataInicioFmt + '</span></div>';
+      html += '    <div class="veiculo-detalhe__leilao-row"><span>Encerramento</span><span>' + dataFimFmt + '</span></div>';
+      if (item.incremento) {
+        html += '    <div class="veiculo-detalhe__leilao-row"><span>Incremento</span><span>R$ ' + parseFloat(item.incremento).toLocaleString('pt-BR') + '</span></div>';
+      }
+      html += '  </div>';
+      html += '</div>';
+
+      // Botões
+      html += '<div class="veiculo-detalhe__acoes">';
+      html += '  <button class="veiculo-detalhe__btn veiculo-detalhe__btn--primario" onclick="darLance()">🔨 Dar Lance</button>';
+      if (item.url_origem) {
+        html += '  <a href="' + esc(item.url_origem) + '" target="_blank" rel="noopener noreferrer" class="veiculo-detalhe__btn veiculo-detalhe__btn--secundario">🔗 Ver no site original</a>';
+      }
+      html += '  <button class="veiculo-detalhe__btn veiculo-detalhe__btn--secundario" onclick="this.classList.toggle(\'ativo\')">♥ Adicionar aos Favoritos</button>';
+      html += '</div>';
+
+      html += '</div>'; // fim sidebar
+      html += '</div>'; // fim topo
+
+      // Header
+      html += '<div class="veiculo-detalhe__header">';
+      html += '  <div class="veiculo-detalhe__tipo">' + esc(item.tipo || 'Veículo') + '</div>';
+      html += '  <h1 class="veiculo-detalhe__titulo">' + esc(item.titulo || '') + '</h1>';
+      if (local) html += '  <div class="veiculo-detalhe__local">📍 ' + esc(local) + '</div>';
+      html += '</div>';
+
+      // Info detalhada
+      var infos = [];
+      if (item.marca) infos.push(['Marca', item.marca]);
+      if (item.modelo) infos.push(['Modelo', item.modelo]);
+      if (item.chave) infos.push(['Chave', item.chave]);
+      if (item.ar) infos.push(['Ar-condicionado', item.ar]);
+      if (item.direcao) infos.push(['Direção', item.direcao]);
+      if (item.blindagem) infos.push(['Blindagem', item.blindagem]);
+      if (item.origem) infos.push(['Origem', item.origem]);
+      if (item.vendedor) infos.push(['Vendedor', item.vendedor]);
+      if (item.local) infos.push(['Local de retirada', item.local]);
+
+      if (infos.length) {
+        html += '<div class="veiculo-detalhe__info-grid">';
+        infos.forEach(function(info) {
+          html += '<div class="veiculo-detalhe__info-item"><span>' + esc(info[0]) + '</span><span>' + esc(info[1]) + '</span></div>';
+        });
+        html += '</div>';
+      }
+
+      // Descrição
+      var desc = item.descricao || '';
+      if (desc) {
+        html += '<div class="veiculo-detalhe__descricao">';
+        html += '  <h3>Descrição</h3>';
+        html += '  <div class="veiculo-detalhe__descricao-texto">' + desc + '</div>';
+        html += '</div>';
+      }
+
+      document.getElementById('conteudo').innerHTML = html;
+    }
+
+    function esc(str) {
+      var div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    function mudarFoto(dir) {
+      var fotos = window._galeriaFotos;
+      if (!fotos || fotos.length <= 1) return;
+      var idx = window._galeriaIndex + dir;
+      if (idx < 0) idx = fotos.length - 1;
+      if (idx >= fotos.length) idx = 0;
+      irParaFoto(idx);
+    }
+
+    function irParaFoto(idx) {
+      var fotos = window._galeriaFotos;
+      if (!fotos || idx < 0 || idx >= fotos.length) return;
+      window._galeriaIndex = idx;
+      document.getElementById('fotoAtual').src = fotos[idx];
+      var contador = document.querySelector('.veiculo-detalhe__contador');
+      if (contador) contador.textContent = (idx + 1) + '/' + fotos.length;
+      var thumbs = document.querySelectorAll('.veiculo-detalhe__thumb');
+      thumbs.forEach(function(t, i) {
+        t.classList.toggle('ativo', i === idx);
+      });
+    }
+
+    function darLance() {
+      alert('Para dar um lance, faça login ou crie uma conta.');
+    }
+  </script>
+</body>
+</html>

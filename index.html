@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qatar Leilões - Imóveis e Veículos em Leilão</title>
+  <meta name="description" content="Encontre os melhores imóveis e veículos em leilão da Caixa com a ajuda da nossa IA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/wp-content/themes/leilao-saysix-theme/assets/img/favicon.svg">
+  <link rel="stylesheet" href="style.css?v=1773003000">
+</head>
+<body>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="/" class="header__logo" aria-label="Qatar Leilões">
+        <img src="/wp-content/themes/leilao-saysix-theme/assets/img/logo-white.svg" alt="Qatar Leilões" height="36" loading="eager">
+      </a>
+
+      <div class="header__busca">
+        <svg class="header__busca-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" class="header__busca-input" placeholder="Buscar imóveis ou veículos por cidade, estado ou tipo...">
+      </div>
+
+      <nav class="header__nav">
+        <div class="dropdown">
+          <button class="header__nav-link" onclick="this.parentElement.classList.toggle('ativo')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            Consultas
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="dropdown__menu">
+            <a href="#" class="dropdown__item">📜 Certidão de Matrícula</a>
+            <a href="#" class="dropdown__item">🔍 Pesquisa de Bens</a>
+            <a href="#" class="dropdown__item">🏛️ Matrícula Online</a>
+            <a href="#" class="dropdown__item">⚖️ Certidão de Ônus Reais</a>
+          </div>
+        </div>
+        <div class="header__auth-btns" id="headerAuthBtns">
+          <button class="btn btn--secundario" onclick="abrirAuth('login')">Entrar</button>
+          <button class="btn btn--primario" onclick="abrirAuth('cadastro')">Criar Conta</button>
+        </div>
+        <div class="header__perfil" id="headerPerfil" style="display:none">
+          <button class="header__perfil-btn" onclick="this.parentElement.classList.toggle('aberto')">
+            <span class="header__perfil-avatar" id="headerAvatar">U</span>
+            <span class="header__perfil-nome" id="headerNome">Usuário</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="header__perfil-dropdown">
+            <a href="/dashboard.html" class="header__perfil-item">📊 Meu Painel</a>
+            <a href="/dashboard.html" class="header__perfil-item">👤 Meu Perfil</a>
+            <a href="#" class="header__perfil-item" onclick="fazerLogout(event)">🚪 Sair</a>
+          </div>
+        </div>
+      </nav>
+
+      <button class="header__menu-toggle" onclick="toggleMenuMobile()">
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Nav Mobile -->
+  <div class="header__nav-mobile" id="navMobile">
+    <div class="header__busca">
+      <svg class="header__busca-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" class="header__busca-input" placeholder="Buscar imóveis ou veículos...">
+    </div>
+    <a href="#" class="header__nav-link">🔍 Consultas</a>
+    <div id="mobileAuthBtns">
+      <a href="#" class="header__nav-link" onclick="abrirAuth('login')">Entrar</a>
+      <a href="#" class="header__nav-link" onclick="abrirAuth('cadastro')">Criar Conta</a>
+    </div>
+    <div id="mobilePerfil" style="display:none">
+      <a href="/dashboard.html" class="header__nav-link">📊 Meu Painel</a>
+      <a href="#" class="header__nav-link" onclick="fazerLogout(event)">🚪 Sair</a>
+    </div>
+  </div>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero">
+    <div class="container hero__conteudo">
+      <h1 class="hero__titulo">
+        Imóveis e Veículos em<br><span>Leilão da Caixa</span>
+      </h1>
+      <p class="hero__subtitulo">
+        Use nossa IA para encontrar as melhores oportunidades. Imóveis com até 50% de desconto e veículos abaixo da FIPE.
+      </p>
+      <div class="hero__busca">
+        <input type="text" class="hero__busca-input" id="heroBuscaInput" placeholder="O que você procura? Ex: apartamento em SP, HB20 2020..." onkeydown="if(event.key==='Enter')iniciarIAHero()">
+        <button class="hero__busca-btn" onclick="iniciarIAHero()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </div>
+
+      <!-- IA Inline no Hero (aparece após busca) -->
+      <div class="hero-ia" id="heroIA" style="display:none">
+        <div class="hero-ia__header">
+          <div class="hero-ia__avatar">🤖</div>
+          <div class="hero-ia__info">
+            <span class="hero-ia__nome">Assistente Qatar</span>
+            <span class="hero-ia__status">● Online</span>
+          </div>
+          <button class="hero-ia__fechar" onclick="fecharIAHero()">✕</button>
+        </div>
+        <div class="hero-ia__corpo" id="heroIACorpo">
+          <!-- Mensagens inseridas via JS -->
+        </div>
+        <div class="hero-ia__sugestoes" id="heroIASugestoes" style="display:none"></div>
+        <div class="hero-ia__input-area">
+          <input type="text" class="hero-ia__input" id="heroIAInput" placeholder="Digite sua resposta..." onkeydown="if(event.key==='Enter')enviarMsgHero()">
+          <button class="hero-ia__enviar" onclick="enviarMsgHero()">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="m22 2-7 20-4-9-9-4z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Categoria rápida (aparece se IA não detectar) -->
+      <div class="hero-ia__escolha" id="heroIAEscolha" style="display:none">
+        <p class="hero-ia__escolha-texto">O que você está procurando?</p>
+        <div class="hero-ia__escolha-btns">
+          <button class="hero-ia__escolha-btn hero-ia__escolha-btn--imovel" onclick="heroEscolherCategoria('imovel')">
+            🏠 Imóvel
+          </button>
+          <button class="hero-ia__escolha-btn hero-ia__escolha-btn--veiculo" onclick="heroEscolherCategoria('veiculo')">
+            🚗 Veículo
+          </button>
+        </div>
+      </div>
+
+      <div class="hero__stats" id="heroStats">
+        <div class="hero__stat">
+          <div class="hero__stat-numero" id="statImoveis">—</div>
+          <div class="hero__stat-label">Imóveis disponíveis</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-numero" id="statVeiculos">—</div>
+          <div class="hero__stat-label">Veículos disponíveis</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-numero">Até 50%</div>
+          <div class="hero__stat-label">De desconto</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FILTROS ═══════════ -->
+  <section class="filtros">
+    <div class="container filtros__inner">
+      <div class="filtros__tipo-toggle">
+        <button class="filtros__tipo-toggle-btn ativo" data-tipo="todos" onclick="filtrarTipo('todos', this)">Todos</button>
+        <button class="filtros__tipo-toggle-btn" data-tipo="imoveis" onclick="filtrarTipo('imoveis', this)">🏠 Imóveis</button>
+        <button class="filtros__tipo-toggle-btn" data-tipo="veiculos" onclick="filtrarTipo('veiculos', this)">🚗 Veículos</button>
+      </div>
+
+      <select class="filtros__select" id="filtroEstado" onchange="aplicarFiltros()">
+        <option value="">Estado</option>
+      </select>
+
+      <select class="filtros__select" id="filtroOrdem" onchange="aplicarFiltros()">
+        <option value="">Ordenar por</option>
+        <option value="menor_preco">Menor preço</option>
+        <option value="maior_preco">Maior preço</option>
+        <option value="maior_desconto">Maior desconto</option>
+        <option value="recentes">Mais recentes</option>
+      </select>
+
+      <div class="filtros__range">
+        <input type="text" class="filtros__range-input" id="filtroPrecoMin" placeholder="R$ Mín" onchange="aplicarFiltros()">
+        <span class="filtros__range-separator">até</span>
+        <input type="text" class="filtros__range-input" id="filtroPrecoMax" placeholder="R$ Máx" onchange="aplicarFiltros()">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ LAYOUT DUAL: IMÓVEIS | VEÍCULOS ═══════════ -->
+  <main class="leilao-dual">
+    <div class="container">
+
+      <div class="leilao-dual__header">
+        <h2 class="leilao-dual__titulo">Oportunidades em Leilão</h2>
+        <div class="categoria-toggle">
+          <button class="categoria-toggle__btn ativo--todos" data-cat="todos" onclick="toggleCategoria('todos', this)">
+            📋 Todos
+            <span class="categoria-toggle__btn-count" id="countTodos">–</span>
+          </button>
+          <button class="categoria-toggle__btn" data-cat="imoveis" onclick="toggleCategoria('imoveis', this)">
+            🏠 Imóveis
+            <span class="categoria-toggle__btn-count" id="countImoveis">–</span>
+          </button>
+          <button class="categoria-toggle__btn" data-cat="veiculos" onclick="toggleCategoria('veiculos', this)">
+            🚗 Veículos
+            <span class="categoria-toggle__btn-count" id="countVeiculos">–</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Duas colunas lado a lado -->
+      <div class="leilao-dual__colunas" id="dualColunas">
+
+        <!-- COLUNA IMÓVEIS -->
+        <section class="leilao-coluna leilao-coluna--imoveis" id="colunaImoveis">
+          <div class="leilao-coluna__header">
+            <h3 class="leilao-coluna__titulo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Imóveis
+            </h3>
+            <a href="#" class="leilao-coluna__ver-todos">Ver todos →</a>
+          </div>
+          <div class="leilao-coluna__grid" id="gridImoveis">
+            <!-- Cards inseridos via JS -->
+          </div>
+        </section>
+
+        <!-- COLUNA VEÍCULOS -->
+        <section class="leilao-coluna leilao-coluna--veiculos" id="colunaVeiculos">
+          <div class="leilao-coluna__header">
+            <h3 class="leilao-coluna__titulo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2"/><path d="M9 17h6"/></svg>
+              Veículos
+            </h3>
+            <a href="#" class="leilao-coluna__ver-todos">Ver todos →</a>
+          </div>
+          <div class="leilao-coluna__grid" id="gridVeiculos">
+            <!-- Cards inseridos via JS -->
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo"><img src="/wp-content/themes/leilao-saysix-theme/assets/img/logo-white.svg" alt="Qatar Leilões" height="32"></div>
+          <p class="footer__descricao">Plataforma inteligente para leilões de imóveis e veículos da Caixa Econômica Federal. Use nossa IA para encontrar as melhores oportunidades.</p>
+          <div class="footer__social">
+            <a href="#" class="footer__social-link">📘</a>
+            <a href="#" class="footer__social-link">📷</a>
+            <a href="#" class="footer__social-link">🐦</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__coluna-titulo">Leilões</h4>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Imóveis</a>
+            <a href="#" class="footer__link">Veículos</a>
+            <a href="#" class="footer__link">Como funciona</a>
+            <a href="#" class="footer__link">Dúvidas frequentes</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__coluna-titulo">Consultas</h4>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Certidão de Matrícula</a>
+            <a href="#" class="footer__link">Pesquisa de Bens</a>
+            <a href="#" class="footer__link">Matrícula Online</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__coluna-titulo">Contato</h4>
+          <div class="footer__links">
+            <a href="mailto:contato@qatarleiloes.com.br" class="footer__link">contato@qatarleiloes.com.br</a>
+            <a href="#" class="footer__link">WhatsApp</a>
+            <a href="#" class="footer__link">Suporte</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Qatar Leilões. Todos os direitos reservados.</span>
+        <div class="footer__bottom-links">
+          <a href="#">Termos de Uso</a>
+          <a href="#">Privacidade</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════ MODAL AUTH (LOGIN / CADASTRO) ═══════════ -->
+  <div class="auth-overlay" id="authOverlay" onclick="if(event.target===this)fecharAuth()">
+    <div class="auth-modal">
+      <div class="auth-modal__header">
+        <h2 class="auth-modal__titulo" id="authTitulo">Entrar</h2>
+        <button class="auth-modal__fechar" onclick="fecharAuth()">✕</button>
+      </div>
+      <div class="auth-modal__corpo">
+        <div class="auth-tabs">
+          <button class="auth-tab ativo" onclick="trocarAuthTab('login', this)">Entrar</button>
+          <button class="auth-tab" onclick="trocarAuthTab('cadastro', this)">Criar Conta</button>
+        </div>
+
+        <!-- LOGIN -->
+        <form id="formLogin" onsubmit="return handleLogin(event)">
+          <div class="auth-form__grupo">
+            <label class="auth-form__label">E-mail</label>
+            <input type="email" id="loginEmail" class="auth-form__input" placeholder="seu@email.com" required>
+          </div>
+          <div class="auth-form__grupo">
+            <label class="auth-form__label">Senha</label>
+            <div class="auth-senha-wrapper">
+              <input type="password" id="loginSenha" class="auth-form__input" placeholder="••••••••" required>
+              <button type="button" class="auth-toggle-senha" onclick="toggleSenha('loginSenha', this)" aria-label="Ver senha" tabindex="-1">
+                <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="icon-eye-off" style="display:none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <div class="auth-form__checkbox">
+              <input type="checkbox" id="lembrar"><label for="lembrar">Lembrar-me</label>
+            </div>
+            <a href="#" class="auth-form__link">Esqueci a senha</a>
+          </div>
+          <button type="submit" class="btn btn--primario btn--full btn--lg">Entrar</button>
+          <div class="auth-form__separador">ou continue com</div>
+          <div class="auth-social">
+            <button type="button" class="auth-social__btn">🔵 Google</button>
+          </div>
+        </form>
+
+        <!-- CADASTRO -->
+        <form id="formCadastro" style="display:none" onsubmit="return handleCadastro(event)">
+          <div class="auth-form__grupo">
+            <label class="auth-form__label">Nome completo</label>
+            <input type="text" id="cadNome" class="auth-form__input" placeholder="Seu nome" required>
+          </div>
+          <div class="auth-form__grupo">
+            <label class="auth-form__label">CPF</label>
+            <input type="text" id="cadCPF" class="auth-form__input" placeholder="000.000.000-00" required>
+          </div>
+          <div class="auth-form__grupo">
+            <label class="auth-form__label">E-mail</label>
+            <input type="email" id="cadEmail" class="auth-form__input" placeholder="seu@email.com" required>
+          </div>
+          <div class="auth-form__grupo">
+            <label class="auth-form__label">Senha</label>
+            <div class="auth-senha-wrapper">
+              <input type="password" id="cadSenha" class="auth-form__input" placeholder="Mínimo 8 caracteres" required>
+              <button type="button" class="auth-toggle-senha" onclick="toggleSenha('cadSenha', this)" aria-label="Ver senha" tabindex="-1">
+                <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="icon-eye-off" style="display:none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="auth-form__checkbox" style="margin-bottom:16px">
+            <input type="checkbox" id="termos" required><label for="termos">Aceito os <a href="#" class="auth-form__link">Termos de Uso</a></label>
+          </div>
+          <button type="submit" class="btn btn--primario btn--full btn--lg">Criar Conta</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ CHAT IA FLUTUANTE ═══════════ -->
+  <div class="chat-ia" id="chatIA">
+    <!-- Botão flutuante -->
+    <button class="chat-ia__toggle" onclick="toggleChat()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="chat-ia__toggle-badge" id="chatBadge" style="display:none">1</span>
+    </button>
+
+    <!-- Janela do chat -->
+    <div class="chat-ia__janela" id="chatJanela">
+      <div class="chat-ia__header">
+        <div class="chat-ia__header-info">
+          <div class="chat-ia__avatar">🤖</div>
+          <div>
+            <div class="chat-ia__header-nome">Assistente Qatar</div>
+            <div class="chat-ia__header-status">Online</div>
+          </div>
+        </div>
+        <button class="chat-ia__fechar" onclick="toggleChat()">✕</button>
+      </div>
+
+      <!-- SELETOR: IMÓVEL OU VEÍCULO -->
+      <div class="chat-ia__categoria" id="chatCategoria">
+        <button class="chat-ia__categoria-btn" onclick="escolherCategoria('imovel', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          🏠 Imóvel
+        </button>
+        <button class="chat-ia__categoria-btn" onclick="escolherCategoria('veiculo', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M7 17m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2"/><path d="M9 17h6"/></svg>
+          🚗 Veículo
+        </button>
+      </div>
+      <p class="chat-ia__categoria-label">O que você está procurando?</p>
+
+      <!-- Corpo de mensagens -->
+      <div class="chat-ia__corpo" id="chatCorpo">
+        <!-- Mensagens inseridas via JS -->
+      </div>
+
+      <!-- Sugestões rápidas -->
+      <div class="chat-ia__sugestoes" id="chatSugestoes" style="display:none">
+        <!-- Preenchido via JS -->
+      </div>
+
+      <!-- Input -->
+      <div class="chat-ia__input-area">
+        <input type="text" class="chat-ia__input" id="chatInput" placeholder="Escolha acima: Imóvel ou Veículo..." disabled onkeydown="if(event.key==='Enter')enviarMsg()">
+        <button class="chat-ia__enviar" id="chatEnviar" onclick="enviarMsg()" disabled>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m22 2-7 20-4-9-9-4z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js?v=1773004000"></script>
+<script>
+function toggleSenha(id, btn) {
+  var input = document.getElementById(id);
+  var eyeOn  = btn.querySelector('.icon-eye');
+  var eyeOff = btn.querySelector('.icon-eye-off');
+  if (input.type === 'password') {
+    input.type = 'text';
+    eyeOn.style.display  = 'none';
+    eyeOff.style.display = '';
+  } else {
+    input.type = 'password';
+    eyeOn.style.display  = '';
+    eyeOff.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>

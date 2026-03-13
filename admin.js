@@ -1,6 +1,6 @@
 /* =====================================================
    ADMIN PANEL — admin.js
-   Área administrativa do Leilão SaySix
+   Área administrativa do Qatar Leilões
    ===================================================== */
 
 'use strict';

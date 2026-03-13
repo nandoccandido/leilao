@@ -1,5 +1,5 @@
 /* ============================================
-   LEILÃO SAYSIX - DASHBOARD JS
+   QATAR LEILÕES - DASHBOARD JS
    Lógica do painel do cliente
    ============================================ */
 
