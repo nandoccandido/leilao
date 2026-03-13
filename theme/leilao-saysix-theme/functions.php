@@ -25,7 +25,7 @@ add_action('after_setup_theme', function () {
  */
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap', [], null);
-    wp_enqueue_style('leilao-theme', get_stylesheet_uri(), ['google-fonts'], '1.1.0');
+    wp_enqueue_style('leilao-theme', get_stylesheet_uri(), ['google-fonts'], '1.2.0');
 
     // IA Triage JS apenas na front page
     if (is_front_page()) {
