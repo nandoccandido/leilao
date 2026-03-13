@@ -157,6 +157,110 @@ class Leilao_Consultas {
 
         ob_start();
         ?>
+        <style>
+        /* ── Consultas Page ── */
+        .consultas-page{font-family:'Inter',sans-serif;color:#1e293b;max-width:1100px;margin:0 auto;padding:0 20px 60px}
+
+        /* Hero */
+        .consultas-hero{text-align:center;padding:48px 20px 32px}
+        .consultas-hero h1{font-size:2rem;font-weight:800;color:#1a5276;margin:0 0 10px}
+        .consultas-hero p{font-size:1.05rem;color:#64748b;max-width:640px;margin:0 auto;line-height:1.6}
+
+        /* Grid de Cards */
+        .consultas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:48px}
+        .consulta-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:28px 24px;transition:box-shadow .2s,transform .2s;display:flex;flex-direction:column}
+        .consulta-card:hover{box-shadow:0 8px 30px rgba(26,82,118,.12);transform:translateY(-3px)}
+        .consulta-card-icon{font-size:2.2rem;margin-bottom:10px}
+        .consulta-card h3{font-size:1.15rem;font-weight:700;color:#1a5276;margin:0 0 8px}
+        .consulta-card-desc{font-size:.9rem;color:#64748b;line-height:1.55;flex:1;margin:0 0 14px}
+        .consulta-card-meta{display:flex;align-items:center;gap:14px;margin-bottom:16px;font-size:.88rem}
+        .consulta-preco{font-weight:700;color:#e67e22;font-size:1.05rem}
+        .consulta-prazo{color:#94a3b8}
+
+        /* Botões */
+        .consulta-btn-solicitar{display:inline-block;background:#1a5276;color:#fff!important;border:none;padding:10px 28px;border-radius:8px;font-size:.92rem;font-weight:600;cursor:pointer;transition:background .2s}
+        .consulta-btn-solicitar:hover{background:#154360}
+
+        /* ── Modal / Overlay ── */
+        .consulta-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+        .consulta-modal{background:#fff;border-radius:16px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;padding:32px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+        .consulta-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.6rem;color:#94a3b8;cursor:pointer;line-height:1}
+        .consulta-modal-close:hover{color:#1e293b}
+        .consulta-modal-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:24px}
+        .consulta-modal-icon{font-size:2.4rem}
+        .consulta-modal-header h3{font-size:1.2rem;font-weight:700;color:#1a5276;margin:0 0 4px}
+        .consulta-modal-desc{font-size:.88rem;color:#64748b;margin:0;line-height:1.5}
+
+        /* Login msg */
+        .consulta-login-msg{text-align:center;padding:20px;background:#f0f9ff;border-radius:10px;font-size:.95rem;color:#334155}
+        .consulta-login-msg a{color:#1a5276;font-weight:600;text-decoration:underline}
+
+        /* Form fields */
+        .consulta-form .leilao-field{margin-bottom:16px}
+        .consulta-form .leilao-field label{display:block;font-size:.85rem;font-weight:600;color:#334155;margin-bottom:5px}
+        .consulta-form .leilao-field input,
+        .consulta-form .leilao-field select,
+        .consulta-form .leilao-field textarea{width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:8px;font-size:.92rem;color:#1e293b;background:#f8fafc;transition:border-color .2s;box-sizing:border-box}
+        .consulta-form .leilao-field input:focus,
+        .consulta-form .leilao-field select:focus,
+        .consulta-form .leilao-field textarea:focus{border-color:#1a5276;outline:none;background:#fff}
+
+        /* Resumo */
+        .consulta-resumo{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin:20px 0}
+        .consulta-resumo-line{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;padding:4px 0}
+        .consulta-resumo-total{border-top:1px solid #e2e8f0;margin-top:8px;padding-top:10px;font-size:1.05rem}
+        .consulta-resumo-total strong{color:#e67e22}
+
+        /* PIX box */
+        .consulta-pix-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:18px;margin-bottom:20px}
+        .consulta-pix-box h4{margin:0 0 8px;font-size:.95rem;color:#92400e}
+        .consulta-pix-box>p{font-size:.85rem;color:#78350f;margin:0 0 12px}
+        .consulta-pix-info{background:#fff;border-radius:8px;padding:12px;margin-bottom:14px}
+        .consulta-pix-row{display:flex;align-items:center;gap:8px;font-size:.88rem;padding:4px 0}
+        .consulta-pix-row span:first-child{color:#78350f}
+        .consulta-pix-row strong{color:#1e293b;word-break:break-all}
+        .consulta-pix-copy{background:none;border:none;cursor:pointer;font-size:1.1rem;padding:2px 6px}
+
+        /* Messages */
+        .consulta-msg{font-size:.88rem;padding:10px 14px;border-radius:8px;text-align:center;margin-top:12px;display:none}
+        .consulta-msg-ok{display:block;background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
+        .consulta-msg-err{display:block;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+
+        /* Submit btn */
+        .consulta-btn-enviar{display:block;width:100%;background:#1a5276;color:#fff!important;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .2s}
+        .consulta-btn-enviar:hover{background:#154360}
+        .consulta-btn-enviar:disabled{opacity:.6;cursor:not-allowed}
+
+        /* ── Minhas Consultas ── */
+        .consultas-minhas{margin-top:40px}
+        .consultas-minhas h2{font-size:1.4rem;font-weight:700;color:#1a5276;margin:0 0 18px}
+        .consultas-table-wrap{overflow-x:auto;border:1px solid #e2e8f0;border-radius:12px}
+        .consultas-table{width:100%;border-collapse:collapse;font-size:.88rem}
+        .consultas-table thead{background:#f1f5f9}
+        .consultas-table th{padding:12px 16px;text-align:left;font-weight:600;color:#475569;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+        .consultas-table td{padding:12px 16px;border-top:1px solid #f1f5f9}
+        .consultas-table tbody tr:hover{background:#f8fafc}
+
+        /* Status badges */
+        .consulta-status{display:inline-block;padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:600}
+        .status-aguardando-pagamento{background:#fef3c7;color:#92400e}
+        .status-pago{background:#dbeafe;color:#1e40af}
+        .status-processando{background:#e0e7ff;color:#3730a3}
+        .status-concluido{background:#d1fae5;color:#065f46}
+        .status-cancelado{background:#fee2e2;color:#991b1b}
+
+        .consulta-download{color:#1a5276;font-weight:600;text-decoration:none}
+        .consulta-download:hover{text-decoration:underline}
+        .consultas-empty{text-align:center;color:#94a3b8;padding:30px;font-size:.95rem}
+        .consultas-lista-loading{text-align:center;color:#94a3b8;padding:30px}
+
+        /* ── Responsivo ── */
+        @media(max-width:640px){
+            .consultas-hero h1{font-size:1.5rem}
+            .consultas-grid{grid-template-columns:1fr}
+            .consulta-modal{padding:20px;margin:10px}
+        }
+        </style>
         <div class="consultas-page">
 
             <!-- Hero -->
