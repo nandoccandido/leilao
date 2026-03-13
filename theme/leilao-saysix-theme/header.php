@@ -41,25 +41,22 @@
                 </div>
             </div>
 
-            <?php if (is_user_logged_in()): ?>
-            <div class="header__perfil">
+            <div class="header__auth-btns" id="headerAuthBtns">
+                <button class="btn btn--secundario" onclick="abrirAuth('login')">Entrar</button>
+                <button class="btn btn--primario" onclick="abrirAuth('cadastro')">Criar Conta</button>
+            </div>
+            <div class="header__perfil" id="headerPerfil" style="display:none">
                 <button class="header__perfil-btn" onclick="this.parentElement.classList.toggle('aberto')">
-                    <span class="header__perfil-avatar"><?php echo strtoupper(mb_substr(wp_get_current_user()->display_name, 0, 1)); ?></span>
-                    <span class="header__perfil-nome"><?php echo esc_html(wp_get_current_user()->display_name); ?></span>
+                    <span class="header__perfil-avatar" id="headerAvatar">U</span>
+                    <span class="header__perfil-nome" id="headerNome">Usuário</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="m6 9 6 6 6-6"/></svg>
                 </button>
                 <div class="header__perfil-dropdown">
                     <a href="<?php echo home_url('/painel-arrematante/'); ?>" class="header__perfil-item">📊 Meu Painel</a>
                     <a href="<?php echo home_url('/painel-arrematante/'); ?>" class="header__perfil-item">👤 Meu Perfil</a>
-                    <a href="<?php echo wp_logout_url(home_url('/')); ?>" class="header__perfil-item">🚪 Sair</a>
+                    <a href="#" class="header__perfil-item" onclick="fazerLogout(event)">🚪 Sair</a>
                 </div>
             </div>
-            <?php else: ?>
-            <div class="header__auth-btns">
-                <a href="<?php echo home_url('/login-leilao/'); ?>" class="btn btn--secundario">Entrar</a>
-                <a href="<?php echo home_url('/registro-leilao/'); ?>" class="btn btn--primario">Criar Conta</a>
-            </div>
-            <?php endif; ?>
         </nav>
 
         <button class="header__menu-toggle" onclick="this.classList.toggle('ativo');document.getElementById('navMobileWP').classList.toggle('ativo')">
@@ -75,11 +72,12 @@
         <input type="text" class="header__busca-input" placeholder="Buscar imóveis ou veículos...">
     </div>
     <a href="<?php echo home_url('/consultas/'); ?>" class="header__nav-link">🔍 Consultas</a>
-    <?php if (is_user_logged_in()): ?>
+    <div id="mobileAuthBtns">
+        <a href="#" class="header__nav-link" onclick="abrirAuth('login')">Entrar</a>
+        <a href="#" class="header__nav-link" onclick="abrirAuth('cadastro')">Criar Conta</a>
+    </div>
+    <div id="mobilePerfil" style="display:none">
         <a href="<?php echo home_url('/painel-arrematante/'); ?>" class="header__nav-link">📊 Meu Painel</a>
-        <a href="<?php echo wp_logout_url(home_url('/')); ?>" class="header__nav-link">🚪 Sair</a>
-    <?php else: ?>
-        <a href="<?php echo home_url('/login-leilao/'); ?>" class="header__nav-link">Entrar</a>
-        <a href="<?php echo home_url('/registro-leilao/'); ?>" class="btn btn--primario" style="width:100%;justify-content:center;padding:14px;margin-top:8px">Criar Conta</a>
-    <?php endif; ?>
+        <a href="#" class="header__nav-link" onclick="fazerLogout(event)">🚪 Sair</a>
+    </div>
 </div>

@@ -68,5 +68,170 @@
 </footer>
 
 <?php wp_footer(); ?>
+
+<!-- Toast Container -->
+<div id="toastContainer" style="position:fixed;top:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:10px"></div>
+
+<!-- ===== Modal de Autenticação ===== -->
+<div class="auth-overlay" id="authOverlay" onclick="if(event.target===this)fecharAuth()">
+    <div class="auth-modal">
+        <div class="auth-modal__header">
+            <h2 class="auth-modal__titulo" id="authTitulo">Entrar</h2>
+            <button class="auth-modal__fechar" onclick="fecharAuth()">✕</button>
+        </div>
+        <div class="auth-modal__corpo">
+            <div class="auth-tabs">
+                <button class="auth-tab ativo" onclick="trocarAuthTab('login', this)">Entrar</button>
+                <button class="auth-tab" onclick="trocarAuthTab('cadastro', this)">Criar Conta</button>
+            </div>
+
+            <!-- LOGIN -->
+            <form id="formLogin" onsubmit="return handleLogin(event)">
+                <div class="auth-form__grupo">
+                    <label class="auth-form__label">E-mail</label>
+                    <input type="email" id="loginEmail" class="auth-form__input" placeholder="seu@email.com" required>
+                </div>
+                <div class="auth-form__grupo">
+                    <label class="auth-form__label">Senha</label>
+                    <input type="password" id="loginSenha" class="auth-form__input" placeholder="••••••••" required>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                    <div class="auth-form__checkbox">
+                        <input type="checkbox" id="lembrar"><label for="lembrar">Lembrar-me</label>
+                    </div>
+                    <a href="#" class="auth-form__link">Esqueci a senha</a>
+                </div>
+                <button type="submit" class="btn btn--primario btn--full btn--lg">Entrar</button>
+            </form>
+
+            <!-- CADASTRO -->
+            <form id="formCadastro" style="display:none" onsubmit="return handleCadastro(event)">
+                <div class="auth-form__grupo">
+                    <label class="auth-form__label">Nome completo</label>
+                    <input type="text" id="cadNome" class="auth-form__input" placeholder="Seu nome" required>
+                </div>
+                <div class="auth-form__grupo">
+                    <label class="auth-form__label">CPF</label>
+                    <input type="text" id="cadCPF" class="auth-form__input" placeholder="000.000.000-00" required>
+                </div>
+                <div class="auth-form__grupo">
+                    <label class="auth-form__label">E-mail</label>
+                    <input type="email" id="cadEmail" class="auth-form__input" placeholder="seu@email.com" required>
+                </div>
+                <div class="auth-form__grupo">
+                    <label class="auth-form__label">Senha</label>
+                    <input type="password" id="cadSenha" class="auth-form__input" placeholder="Mínimo 8 caracteres" required>
+                </div>
+                <div class="auth-form__checkbox" style="margin-bottom:16px">
+                    <input type="checkbox" id="termos" required><label for="termos">Aceito os <a href="#" class="auth-form__link">Termos de Uso</a></label>
+                </div>
+                <button type="submit" class="btn btn--primario btn--full btn--lg">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ── Auth Modal ── */
+function abrirAuth(tipo){
+    document.getElementById('authOverlay').classList.add('ativo');
+    trocarAuthTab(tipo);
+}
+function fecharAuth(){
+    document.getElementById('authOverlay').classList.remove('ativo');
+}
+function trocarAuthTab(tipo,btn){
+    var tabs=document.querySelectorAll('.auth-tab');
+    tabs.forEach(function(t){t.classList.remove('ativo')});
+    if(btn){btn.classList.add('ativo')}else{
+        tabs.forEach(function(t){
+            if((tipo==='login'&&t.textContent==='Entrar')||(tipo==='cadastro'&&t.textContent==='Criar Conta'))t.classList.add('ativo');
+        });
+    }
+    document.getElementById('formLogin').style.display=tipo==='login'?'block':'none';
+    document.getElementById('formCadastro').style.display=tipo==='cadastro'?'block':'none';
+    document.getElementById('authTitulo').textContent=tipo==='login'?'Entrar':'Criar Conta';
+}
+
+function handleLogin(e){
+    e.preventDefault();
+    var email=document.getElementById('loginEmail').value.trim();
+    var senha=document.getElementById('loginSenha').value;
+    var btn=e.target.querySelector('button[type="submit"]');
+    var txt=btn.textContent;
+    btn.disabled=true;btn.textContent='Entrando...';
+    fetch('/api/auth.php?action=login',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({email:email,senha:senha})})
+    .then(function(r){return r.json()})
+    .then(function(d){
+        btn.disabled=false;btn.textContent=txt;
+        if(d.ok){mostrarToast('sucesso','Login realizado!','Bem-vindo de volta!');fecharAuth();verificarSessao()}
+        else{mostrarToast('erro','Erro no login',d.erro||'E-mail ou senha incorretos')}
+    }).catch(function(){btn.disabled=false;btn.textContent=txt;mostrarToast('erro','Erro','Falha na comunicação')});
+    return false;
+}
+
+function handleCadastro(e){
+    e.preventDefault();
+    var nome=document.getElementById('cadNome').value.trim();
+    var email=document.getElementById('cadEmail').value.trim();
+    var cpf=document.getElementById('cadCPF').value.trim();
+    var senha=document.getElementById('cadSenha').value;
+    var btn=e.target.querySelector('button[type="submit"]');
+    var txt=btn.textContent;
+    btn.disabled=true;btn.textContent='Criando conta...';
+    fetch('/api/auth.php?action=cadastro',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({nome:nome,email:email,cpf:cpf,senha:senha})})
+    .then(function(r){return r.json()})
+    .then(function(d){
+        btn.disabled=false;btn.textContent=txt;
+        if(d.ok){mostrarToast('sucesso','Conta criada!','Bem-vindo ao Qatar Leilões!');fecharAuth();verificarSessao()}
+        else{mostrarToast('erro','Erro no cadastro',d.erro||'Não foi possível criar a conta')}
+    }).catch(function(){btn.disabled=false;btn.textContent=txt;mostrarToast('erro','Erro','Falha na comunicação')});
+    return false;
+}
+
+/* ── Toast ── */
+function mostrarToast(tipo,titulo,mensagem){
+    var c=document.getElementById('toastContainer');
+    var t=document.createElement('div');
+    t.className='toast toast--'+tipo;
+    t.innerHTML='<div class="toast__conteudo"><div class="toast__titulo">'+titulo+'</div><div class="toast__mensagem">'+mensagem+'</div></div><button class="toast__fechar" onclick="this.parentElement.remove()">✕</button>';
+    c.appendChild(t);setTimeout(function(){t.remove()},4000);
+}
+
+/* ── Sessão ── */
+function verificarSessao(){
+    fetch('/api/auth.php?action=check',{credentials:'same-origin'})
+    .then(function(r){return r.json()})
+    .then(function(d){if(d.ok&&d.usuario)mostrarPerfilHeader(d.usuario)})
+    .catch(function(){});
+}
+function mostrarPerfilHeader(u){
+    var nome=u.nome||u.email||'Usuário';
+    var iniciais=nome.split(' ').map(function(p){return p[0]}).join('').substring(0,2).toUpperCase();
+    var ab=document.getElementById('headerAuthBtns');
+    var pf=document.getElementById('headerPerfil');
+    if(ab)ab.style.display='none';
+    if(pf){pf.style.display='flex';document.getElementById('headerAvatar').textContent=iniciais;document.getElementById('headerNome').textContent=nome.split(' ')[0]}
+    var ma=document.getElementById('mobileAuthBtns');
+    var mp=document.getElementById('mobilePerfil');
+    if(ma)ma.style.display='none';
+    if(mp)mp.style.display='block';
+}
+function fazerLogout(e){
+    if(e)e.preventDefault();
+    fetch('/api/auth.php?action=logout',{credentials:'same-origin'})
+    .then(function(){window.location.reload()}).catch(function(){window.location.reload()});
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+    verificarSessao();
+    document.addEventListener('click',function(e){
+        var p=document.getElementById('headerPerfil');
+        if(p&&!p.contains(e.target))p.classList.remove('aberto');
+        var d=document.querySelector('.dropdown');
+        if(d&&!d.contains(e.target))d.classList.remove('ativo');
+    });
+});
+</script>
 </body>
 </html>
