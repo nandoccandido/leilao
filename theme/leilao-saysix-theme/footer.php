@@ -73,7 +73,7 @@
 <div id="toastContainer" style="position:fixed;top:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:10px"></div>
 
 <!-- ===== Modal de Autenticação ===== -->
-<div class="auth-overlay" id="authOverlay" onclick="if(event.target===this)fecharAuth()">
+<div class="auth-overlay" id="authOverlay" style="display:none" onclick="if(event.target===this)fecharAuth()">
     <div class="auth-modal">
         <div class="auth-modal__header">
             <h2 class="auth-modal__titulo" id="authTitulo">Entrar</h2>
@@ -134,11 +134,15 @@
 <script>
 /* ── Auth Modal ── */
 function abrirAuth(tipo){
-    document.getElementById('authOverlay').classList.add('ativo');
+    var ov=document.getElementById('authOverlay');
+    ov.style.display='flex';
+    ov.classList.add('ativo');
     trocarAuthTab(tipo);
 }
 function fecharAuth(){
-    document.getElementById('authOverlay').classList.remove('ativo');
+    var ov=document.getElementById('authOverlay');
+    ov.classList.remove('ativo');
+    ov.style.display='none';
 }
 function trocarAuthTab(tipo,btn){
     var tabs=document.querySelectorAll('.auth-tab');
@@ -225,6 +229,9 @@ function fazerLogout(e){
 
 document.addEventListener('DOMContentLoaded',function(){
     verificarSessao();
+    var params=new URLSearchParams(window.location.search);
+    var authParam=params.get('auth');
+    if(authParam==='login'||authParam==='cadastro')abrirAuth(authParam);
     document.addEventListener('click',function(e){
         var p=document.getElementById('headerPerfil');
         if(p&&!p.contains(e.target))p.classList.remove('aberto');

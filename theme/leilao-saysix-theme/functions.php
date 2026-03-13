@@ -75,6 +75,20 @@ add_filter('wp_title', function ($title) {
 }, 10);
 
 /**
+ * Redirect old login/registro pages to homepage with auth modal
+ */
+add_action('template_redirect', function () {
+    if (is_page(['login-leilao', 'login-leilao-2'])) {
+        wp_redirect(home_url('/?auth=login'), 301);
+        exit;
+    }
+    if (is_page(['registro-leilao', 'registro-leilao-2'])) {
+        wp_redirect(home_url('/?auth=cadastro'), 301);
+        exit;
+    }
+});
+
+/**
  * Leilão stats helper
  */
 function leilao_get_stats(): array {
