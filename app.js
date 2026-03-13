@@ -352,9 +352,10 @@ function renderCardVeiculo(item) {
 function renderGrids() {
   var gridImoveis = document.getElementById('gridImoveis');
   var gridVeiculos = document.getElementById('gridVeiculos');
+  var MAX_HOME = 10;
 
   if (IMOVEIS_DATA.length) {
-    gridImoveis.innerHTML = IMOVEIS_DATA.map(renderCardImovel).join('');
+    gridImoveis.innerHTML = IMOVEIS_DATA.slice(0, MAX_HOME).map(renderCardImovel).join('');
   } else {
     gridImoveis.innerHTML = imoveisCarregados
       ? '<div style="text-align:center;padding:40px;color:var(--cor-texto-muted)">Nenhum imóvel disponível no momento</div>'
@@ -362,7 +363,7 @@ function renderGrids() {
   }
 
   gridVeiculos.innerHTML = VEICULOS_DATA.length
-    ? VEICULOS_DATA.map(renderCardVeiculo).join('')
+    ? VEICULOS_DATA.slice(0, MAX_HOME).map(renderCardVeiculo).join('')
     : (veiculosCarregados
       ? '<div style="text-align:center;padding:40px;color:var(--cor-texto-muted)">Nenhum veículo disponível no momento</div>'
       : '<div style="text-align:center;padding:40px;color:var(--cor-texto-muted)">Carregando veículos...</div>');
@@ -389,7 +390,7 @@ function toggleCategoria(cat, btn) {
   if (cat === 'todos') {
     colImoveis.style.display = '';
     colVeiculos.style.display = '';
-    dual.style.gridTemplateColumns = '1fr 1fr';
+    dual.style.gridTemplateColumns = '1fr';
   } else if (cat === 'imoveis') {
     colImoveis.style.display = '';
     colVeiculos.style.display = 'none';
