@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Qatar Leilões</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/wp-content/themes/leilao-saysix-theme/assets/img/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    /* Logo como imagem */
+    .adm-header__logo { gap: 10px; }
+    .adm-header__logo img { height: 32px; width: auto; display: block; }
+    .adm-header__logo span:first-of-type { display: none; }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- HEADER -->
+  <header class="adm-header">
+    <div class="adm-header__logo">
+      <img src="/wp-content/themes/leilao-saysix-theme/assets/img/logo-white.svg"
+           alt="Qatar Leilões"
+           width="140" height="34"
+           loading="eager">
+      <span class="adm-badge">Admin</span>
+    </div>
+    <div class="adm-header__right">
+      <span class="adm-header__user" id="admNome">...</span>
+      <a href="/" class="adm-header__link" title="Ver site">🌐 Site</a>
+      <button class="adm-header__link" onclick="fazerLogout()">Sair</button>
+    </div>
+  </header>
+
+  <!-- LAYOUT -->
+  <div class="adm-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="adm-sidebar">
+      <nav class="adm-nav">
+        <button class="adm-nav__item ativo" data-painel="overview" onclick="trocarPainel('overview',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Visão Geral
+        </button>
+        <button class="adm-nav__item" data-painel="usuarios" onclick="trocarPainel('usuarios',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Usuários
+          <span class="adm-nav__badge" id="badgeUsuarios"></span>
+        </button>
+        <button class="adm-nav__item" data-painel="imoveis" onclick="trocarPainel('imoveis',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+          Imóveis
+          <span class="adm-nav__badge" id="badgeImoveis"></span>
+        </button>
+        <button class="adm-nav__item" data-painel="importacao" onclick="trocarPainel('importacao',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+          Importação
+        </button>
+        <button class="adm-nav__item" data-painel="wordpress" onclick="trocarPainel('wordpress',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          WordPress
+        </button>
+      </nav>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="adm-main">
+
+      <!-- ═══ VISÃO GERAL ═══ -->
+      <section class="adm-painel ativo" id="painel-overview">
+        <div class="adm-page-header">
+          <h1>Visão Geral</h1>
+          <span class="adm-page-sub" id="admDataHora"></span>
+        </div>
+        <div class="adm-stats-grid" id="statsGrid">
+          <div class="adm-stat-card">
+            <div class="adm-stat-icon" style="background:#e8f4fd">👥</div>
+            <div class="adm-stat-info">
+              <span class="adm-stat-label">Total de Usuários</span>
+              <strong class="adm-stat-valor" id="stTotUsuarios">...</strong>
+            </div>
+          </div>
+          <div class="adm-stat-card">
+            <div class="adm-stat-icon" style="background:#e8fdf4">🏠</div>
+            <div class="adm-stat-info">
+              <span class="adm-stat-label">Imóveis Publicados</span>
+              <strong class="adm-stat-valor" id="stTotImoveis">...</strong>
+            </div>
+          </div>
+          <div class="adm-stat-card">
+            <div class="adm-stat-icon" style="background:#fdf4e8">🚗</div>
+            <div class="adm-stat-info">
+              <span class="adm-stat-label">Veículos Publicados</span>
+              <strong class="adm-stat-valor" id="stTotVeiculos">...</strong>
+            </div>
+          </div>
+          <div class="adm-stat-card">
+            <div class="adm-stat-icon" style="background:#fde8e8">✨</div>
+            <div class="adm-stat-info">
+              <span class="adm-stat-label">Novos Hoje</span>
+              <strong class="adm-stat-valor" id="stNovosHoje">...</strong>
+            </div>
+          </div>
+        </div>
+        <div class="adm-card" style="margin-top:24px">
+          <div class="adm-card__header">
+            <h2>Acesso Rápido</h2>
+          </div>
+          <div class="adm-shortcuts">
+            <a href="/wp-admin/" target="_blank" class="adm-shortcut">
+              <span>🔧</span> Painel WordPress
+            </a>
+            <button class="adm-shortcut" onclick="trocarPainel('importacao', document.querySelector('[data-painel=importacao]'))">
+              <span>⬇️</span> Importar Imóveis
+            </button>
+            <button class="adm-shortcut" onclick="trocarPainel('usuarios', document.querySelector('[data-painel=usuarios]'))">
+              <span>👥</span> Gerenciar Usuários
+            </button>
+            <a href="/" target="_blank" class="adm-shortcut">
+              <span>🌐</span> Ver Site
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ USUÁRIOS ═══ -->
+      <section class="adm-painel" id="painel-usuarios">
+        <div class="adm-page-header">
+          <h1>Usuários</h1>
+          <div class="adm-page-actions">
+            <input type="text" class="adm-input-search" id="searchUsuarios" placeholder="Buscar por nome ou e-mail..." oninput="buscarUsuarios(this.value)">
+          </div>
+        </div>
+        <div class="adm-card">
+          <table class="adm-table" id="tabelaUsuarios">
+            <thead>
+              <tr>
+                <th>ID</th><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Cadastro</th><th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyUsuarios">
+              <tr><td colspan="6" class="adm-loading">Carregando...</td></tr>
+            </tbody>
+          </table>
+          <div class="adm-paginacao" id="paginacaoUsuarios"></div>
+        </div>
+      </section>
+
+      <!-- ═══ IMÓVEIS ═══ -->
+      <section class="adm-painel" id="painel-imoveis">
+        <div class="adm-page-header">
+          <h1>Imóveis</h1>
+          <div class="adm-page-actions">
+            <input type="text" class="adm-input-search" id="searchImoveis" placeholder="Buscar por título, cidade..." oninput="buscarImoveis(this.value)">
+          </div>
+        </div>
+        <div class="adm-card">
+          <table class="adm-table" id="tabelaImoveis">
+            <thead>
+              <tr>
+                <th>ID</th><th>Título</th><th>Cidade/UF</th><th>Preço Mín.</th><th>Status</th><th>Data</th><th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyImoveis">
+              <tr><td colspan="7" class="adm-loading">Carregando...</td></tr>
+            </tbody>
+          </table>
+          <div class="adm-paginacao" id="paginacaoImoveis"></div>
+        </div>
+      </section>
+
+      <!-- ═══ IMPORTAÇÃO ═══ -->
+      <section class="adm-painel" id="painel-importacao">
+        <div class="adm-page-header">
+          <h1>Importação de Dados</h1>
+        </div>
+        <div class="adm-cards-row">
+          <div class="adm-card">
+            <div class="adm-card__header">
+              <h2>🏠 Importar Imóveis Caixa</h2>
+            </div>
+            <p style="margin-bottom:16px;color:#666;font-size:14px">Dispara o script de importação de imóveis da Caixa Econômica Federal.</p>
+            <button class="btn btn--primario" onclick="rodarImport('imoveis')" id="btnImportImoveis">
+              ▶ Importar Imóveis
+            </button>
+            <div class="adm-import-log" id="logImoveis"></div>
+          </div>
+          <div class="adm-card">
+            <div class="adm-card__header">
+              <h2>🚗 Importar Veículos Caixa</h2>
+            </div>
+            <p style="margin-bottom:16px;color:#666;font-size:14px">Dispara o script de importação de veículos da Caixa Econômica Federal.</p>
+            <button class="btn btn--primario" onclick="rodarImport('veiculos')" id="btnImportVeiculos">
+              ▶ Importar Veículos
+            </button>
+            <div class="adm-import-log" id="logVeiculos"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ WORDPRESS ═══ -->
+      <section class="adm-painel" id="painel-wordpress">
+        <div class="adm-page-header">
+          <h1>WordPress</h1>
+        </div>
+        <div class="adm-cards-row">
+          <div class="adm-card">
+            <div class="adm-card__header"><h2>Acesso ao Painel WP</h2></div>
+            <p style="color:#666;font-size:14px;margin-bottom:16px">Acesse o painel administrativo completo do WordPress para gerenciar plugins, temas e configurações avançadas.</p>
+            <a href="/wp-admin/" target="_blank" class="btn btn--primario">Abrir wp-admin →</a>
+          </div>
+          <div class="adm-card">
+            <div class="adm-card__header"><h2>Links Úteis</h2></div>
+            <ul class="adm-link-list">
+              <li><a href="/wp-admin/plugins.php" target="_blank">🔌 Plugins</a></li>
+              <li><a href="/wp-admin/themes.php" target="_blank">🎨 Temas</a></li>
+              <li><a href="/wp-admin/users.php" target="_blank">👥 Usuários WP</a></li>
+              <li><a href="/wp-admin/options-general.php" target="_blank">⚙️ Configurações Gerais</a></li>
+              <li><a href="/wp-admin/update-core.php" target="_blank">🔄 Atualizações</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL ALTERAR ROLE -->
+  <div class="adm-modal-overlay" id="modalRoleOverlay" onclick="if(event.target===this)fecharModalRole()" style="display:none">
+    <div class="adm-modal">
+      <h3>Alterar Perfil do Usuário</h3>
+      <p id="modalRoleNome" style="color:#666;margin-bottom:16px"></p>
+      <select class="adm-select" id="modalRoleSelect">
+        <option value="subscriber">Subscriber (Usuário)</option>
+        <option value="editor">Editor</option>
+        <option value="administrator">Administrator</option>
+      </select>
+      <div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end">
+        <button class="btn btn--outline" onclick="fecharModalRole()">Cancelar</button>
+        <button class="btn btn--primario" onclick="salvarRole()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
