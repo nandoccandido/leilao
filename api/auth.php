@@ -154,6 +154,29 @@ switch ($action) {
         ]);
         break;
 
+    // ─── ME (formato admin.js — { success, data }) ──────────────
+    case 'me':
+        if (empty($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Não autenticado']);
+            exit;
+        }
+
+        $user = get_user_by('ID', $_SESSION['user_id']);
+        if (!$user) {
+            session_destroy();
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Usuário não encontrado']);
+            exit;
+        }
+
+        $meta = get_user_meta($user->ID);
+        echo json_encode([
+            'success' => true,
+            'data'    => build_user_response($user, $meta),
+        ]);
+        break;
+
     // ─── CHECK (sessão ativa?) ──────────────
     case 'check':
         if (empty($_SESSION['user_id'])) {
