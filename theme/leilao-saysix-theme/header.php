@@ -4,7 +4,7 @@
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Leilão de imóveis da Caixa Econômica Federal. Arremate imóveis com descontos de até 50%.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="<?php echo get_template_directory_uri(); ?>/assets/img/favicon.svg">
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -13,8 +13,11 @@
 <header class="site-header">
     <div class="header-inner">
         <!-- Logo -->
-        <a href="<?php echo home_url(); ?>" class="site-logo">
-            🏠 Qatar<span class="accent">Leilões</span>
+        <a href="<?php echo home_url(); ?>" class="site-logo" aria-label="Qatar Leilões – Página inicial">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/logo.svg"
+                 alt="Qatar Leilões"
+                 width="180" height="44"
+                 loading="eager">
         </a>
 
         <!-- Busca -->

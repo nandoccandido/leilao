@@ -80,13 +80,17 @@ img { max-width: 100%; height: auto; }
 }
 
 .site-logo {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--primary);
+    display: flex;
+    align-items: center;
     white-space: nowrap;
     flex-shrink: 0;
+    line-height: 1;
 }
-.site-logo .accent { color: var(--accent); }
+.site-logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
 
 /* — Barra de Busca — */
 .header-search {

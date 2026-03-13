@@ -8,17 +8,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/wp-content/themes/leilao-saysix-theme/assets/img/favicon.svg">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="dashboard.css">
+  <style>
+    /* Logo como imagem */
+    .header__logo { display: flex; align-items: center; }
+    .header__logo img { height: 36px; width: auto; display: block; }
+  </style>
 </head>
 <body class="dashboard-body">
 
   <!-- ═══════════ HEADER ═══════════ -->
   <header class="header">
     <div class="container header__inner">
-      <a href="/" class="header__logo">
-        🏗️ Qatar<span>Leilões</span>
+      <a href="/" class="header__logo" aria-label="Qatar Leilões">
+        <img src="/wp-content/themes/leilao-saysix-theme/assets/img/logo-white.svg"
+             alt="Qatar Leilões"
+             width="160" height="40"
+             loading="eager">
       </a>
 
       <div class="header__busca">

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none" role="img" aria-label="Qatar Leilões">
+  <title>Qatar Leilões</title>
+
+  <!-- Telhado -->
+  <polygon points="26,3 1,26 51,26" fill="#1a5276"/>
+
+  <!-- Paredes -->
+  <rect x="7" y="25" width="38" height="26" rx="1" fill="#1a5276"/>
+
+  <!-- Porta -->
+  <rect x="19" y="34" width="14" height="17" rx="2" fill="#f8fafc"/>
+
+  <!-- Janela esquerda -->
+  <rect x="9" y="29" width="8" height="7" rx="1" fill="#f8fafc" opacity="0.75"/>
+
+  <!-- Janela direita -->
+  <rect x="35" y="29" width="8" height="7" rx="1" fill="#f8fafc" opacity="0.75"/>
+
+  <!-- Cabo do martelo -->
+  <line x1="37" y1="21" x2="50" y2="8" stroke="#e67e22" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Cabeça do martelo -->
+  <rect x="44" y="4" width="14" height="7" rx="3.5" fill="#e67e22" transform="rotate(45 51 7.5)"/>
+</svg>
