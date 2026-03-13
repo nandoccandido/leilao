@@ -10,30 +10,76 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<header class="site-header">
-    <div class="header-inner">
+<header class="header">
+    <div class="container header__inner">
         <!-- Logo -->
-        <a href="<?php echo home_url(); ?>" class="site-logo" aria-label="Qatar Leilões – Página inicial">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/logo.svg"
+        <a href="<?php echo home_url('/'); ?>" class="header__logo" aria-label="Qatar Leilões – Página inicial">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/logo-white.svg"
                  alt="Qatar Leilões"
-                 width="180" height="44"
-                 loading="eager">
+                 height="36" loading="eager">
         </a>
 
         <!-- Busca -->
-        <form class="header-search" action="<?php echo home_url('/catalogo/'); ?>" method="get">
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" name="busca" placeholder="Buscar imóveis por cidade, estado ou tipo..." autocomplete="off" />
-        </form>
+        <div class="header__busca">
+            <svg class="header__busca-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" class="header__busca-input" placeholder="Buscar imóveis por cidade, estado ou tipo...">
+        </div>
 
-        <!-- Login / Cadastro -->
-        <nav class="header-nav">
+        <!-- Navegação -->
+        <nav class="header__nav">
+            <div class="dropdown">
+                <button class="header__nav-link" onclick="this.parentElement.classList.toggle('ativo')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    Consultas
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="dropdown__menu">
+                    <a href="<?php echo home_url('/consultas/#certidao'); ?>" class="dropdown__item">📜 Certidão de Matrícula</a>
+                    <a href="<?php echo home_url('/consultas/#pesquisa_bens'); ?>" class="dropdown__item">🔍 Pesquisa de Bens</a>
+                    <a href="<?php echo home_url('/consultas/#matricula_online'); ?>" class="dropdown__item">🏛️ Matrícula Online</a>
+                    <a href="<?php echo home_url('/consultas/#certidao_onus'); ?>" class="dropdown__item">⚖️ Certidão de Ônus Reais</a>
+                </div>
+            </div>
+
             <?php if (is_user_logged_in()): ?>
-                <a href="<?php echo home_url('/painel-arrematante/'); ?>" class="btn-header-outline">Meu Painel</a>
+            <div class="header__perfil">
+                <button class="header__perfil-btn" onclick="this.parentElement.classList.toggle('aberto')">
+                    <span class="header__perfil-avatar"><?php echo strtoupper(mb_substr(wp_get_current_user()->display_name, 0, 1)); ?></span>
+                    <span class="header__perfil-nome"><?php echo esc_html(wp_get_current_user()->display_name); ?></span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="header__perfil-dropdown">
+                    <a href="<?php echo home_url('/painel-arrematante/'); ?>" class="header__perfil-item">📊 Meu Painel</a>
+                    <a href="<?php echo home_url('/painel-arrematante/'); ?>" class="header__perfil-item">👤 Meu Perfil</a>
+                    <a href="<?php echo wp_logout_url(home_url('/')); ?>" class="header__perfil-item">🚪 Sair</a>
+                </div>
+            </div>
             <?php else: ?>
-                <a href="<?php echo home_url('/login-leilao/'); ?>" class="btn-header-outline">Entrar</a>
-                <a href="<?php echo home_url('/registro-leilao/'); ?>" class="btn-header">Criar Conta</a>
+            <div class="header__auth-btns">
+                <a href="<?php echo home_url('/login-leilao/'); ?>" class="btn btn--secundario">Entrar</a>
+                <a href="<?php echo home_url('/registro-leilao/'); ?>" class="btn btn--primario">Criar Conta</a>
+            </div>
             <?php endif; ?>
         </nav>
+
+        <button class="header__menu-toggle" onclick="this.classList.toggle('ativo');document.getElementById('navMobileWP').classList.toggle('ativo')">
+            <span></span>
+        </button>
     </div>
 </header>
+
+<!-- Nav Mobile -->
+<div class="header__nav-mobile" id="navMobileWP">
+    <div class="header__busca">
+        <svg class="header__busca-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" class="header__busca-input" placeholder="Buscar imóveis ou veículos...">
+    </div>
+    <a href="<?php echo home_url('/consultas/'); ?>" class="header__nav-link">🔍 Consultas</a>
+    <?php if (is_user_logged_in()): ?>
+        <a href="<?php echo home_url('/painel-arrematante/'); ?>" class="header__nav-link">📊 Meu Painel</a>
+        <a href="<?php echo wp_logout_url(home_url('/')); ?>" class="header__nav-link">🚪 Sair</a>
+    <?php else: ?>
+        <a href="<?php echo home_url('/login-leilao/'); ?>" class="header__nav-link">Entrar</a>
+        <a href="<?php echo home_url('/registro-leilao/'); ?>" class="btn btn--primario" style="width:100%;justify-content:center;padding:14px;margin-top:8px">Criar Conta</a>
+    <?php endif; ?>
+</div>
