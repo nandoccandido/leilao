@@ -1,0 +1,554 @@
+/* ============================================
+   Leilão Caixa - Admin Styles
+   ============================================ */
+
+.leilao-admin-stats {
+    display: flex;
+    gap: 20px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+}
+
+.leilao-stat-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px;
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.leilao-stat-number {
+    display: block;
+    font-size: 36px;
+    font-weight: 800;
+    color: #1a5276;
+}
+
+.leilao-stat-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.leilao-metabox-table .regular-text {
+    width: 100%;
+    max-width: 400px;
+}
+
+.leilao-lances-sidebar p {
+    margin: 8px 0;
+}
+
+.leilao-admin-form .form-table th {
+    width: 180px;
+}
+
+/* ============================
+   Arrematação - Estilos Admin
+   ============================ */
+
+/* Metabox arrematação */
+.leilao-arr-notice {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #856404;
+}
+
+.leilao-arr-confirm {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 12px;
+}
+
+.leilao-arr-confirm h4 {
+    margin: 0 0 16px;
+    font-size: 15px;
+    color: #1d2327;
+}
+
+.leilao-arr-confirm table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leilao-arr-confirm table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.leilao-arr-confirm table td:first-child {
+    font-weight: 600;
+    width: 180px;
+    color: #50575e;
+}
+
+.leilao-arr-confirm .button-primary {
+    margin-top: 16px;
+    padding: 6px 20px;
+    height: auto;
+    font-size: 14px;
+}
+
+/* Status box */
+.leilao-arr-status-box {
+    background: #f0f6fc;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 8px;
+}
+
+.leilao-arr-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d0d7de;
+}
+
+.leilao-arr-header h4 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.leilao-arr-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.leilao-arr-badge.status-aguardando_confirmacao { background: #fff3cd; color: #856404; }
+.leilao-arr-badge.status-aguardando_documentos { background: #cfe2ff; color: #084298; }
+.leilao-arr-badge.status-documentos_enviados { background: #d1e7dd; color: #0f5132; }
+.leilao-arr-badge.status-em_analise { background: #e2e3e5; color: #41464b; }
+.leilao-arr-badge.status-aprovado { background: #d1e7dd; color: #0f5132; }
+.leilao-arr-badge.status-reprovado { background: #f8d7da; color: #842029; }
+.leilao-arr-badge.status-concluido { background: #0d6efd; color: #fff; }
+
+.leilao-arr-status-box table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+}
+
+.leilao-arr-status-box table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 13px;
+}
+
+.leilao-arr-status-box table td:first-child {
+    font-weight: 600;
+    width: 160px;
+    color: #50575e;
+}
+
+.leilao-arr-update {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #d0d7de;
+}
+
+.leilao-arr-update select {
+    min-width: 200px;
+}
+
+/* Página de listagem */
+.leilao-arr-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.leilao-arr-stat-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px 24px;
+    min-width: 140px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.leilao-arr-stat-card .number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1d2327;
+    display: block;
+}
+
+.leilao-arr-stat-card .label {
+    font-size: 12px;
+    color: #757575;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    display: block;
+}
+
+.leilao-arr-prazo-vencido {
+    background: #fff5f5 !important;
+}
+
+.leilao-arr-prazo-vencido td {
+    color: #c0392b;
+}
+
+/* Filtro de status */
+.leilao-arr-filters {
+    margin-bottom: 16px;
+}
+
+.leilao-arr-filters select {
+    min-width: 200px;
+    margin-right: 8px;
+}
+
+/* ============================
+   Arrematação v2 — Abas, Docs, Pipeline, Timeline, Notificações
+   ============================ */
+
+/* === Abas === */
+.arr-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #c3c4c7;
+    margin: 16px 0 0;
+}
+
+.arr-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #50575e;
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.arr-tab:hover {
+    color: #1d2327;
+    border-bottom-color: #999;
+}
+
+.arr-tab.active {
+    color: #1a5276;
+    border-bottom-color: #1a5276;
+    background: #f0f6fc;
+    border-radius: 4px 4px 0 0;
+}
+
+.arr-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: #c3c4c7;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 0 6px;
+}
+
+.arr-tab-count.pending {
+    background: #f0ad4e;
+}
+
+.arr-tab-content {
+    display: none;
+    padding: 20px 0;
+}
+
+.arr-tab-content.active {
+    display: block;
+}
+
+.arr-empty-state {
+    text-align: center;
+    color: #999;
+    padding: 24px;
+    font-style: italic;
+}
+
+/* === Upload de Documentos === */
+.arr-doc-upload-box {
+    background: #f8f9fa;
+    border: 1px dashed #c3c4c7;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.arr-doc-upload-box h4 {
+    margin: 0 0 12px;
+    font-size: 14px;
+}
+
+.arr-doc-upload-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.arr-doc-upload-form select {
+    min-width: 200px;
+}
+
+.arr-doc-upload-form input[type="file"] {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* === Tabela de Documentos === */
+.arr-docs-table .arr-doc-row.status-aprovado {
+    background: #f0fdf4 !important;
+}
+
+.arr-docs-table .arr-doc-row.status-reprovado {
+    background: #fef2f2 !important;
+}
+
+.arr-doc-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.arr-doc-badge.doc-pendente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.arr-doc-badge.doc-aprovado {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.arr-doc-badge.doc-reprovado {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.arr-doc-obs {
+    color: #666;
+    font-style: italic;
+}
+
+.arr-doc-actions {
+    white-space: nowrap;
+}
+
+.arr-doc-actions .button-small {
+    margin: 1px !important;
+    min-width: auto;
+}
+
+/* === Pipeline de Status === */
+.arr-status-pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 20px 0 30px;
+    overflow-x: auto;
+}
+
+.arr-pipeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 110px;
+    position: relative;
+}
+
+.arr-pipeline-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #c3c4c7;
+    margin-bottom: 8px;
+    transition: all .2s;
+}
+
+.arr-pipeline-step.done .arr-pipeline-dot {
+    background: #5cb85c;
+}
+
+.arr-pipeline-step.current .arr-pipeline-dot {
+    background: #1a5276;
+    box-shadow: 0 0 0 4px rgba(26,82,118,0.2);
+    transform: scale(1.15);
+}
+
+.arr-pipeline-step span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #999;
+    max-width: 100px;
+    line-height: 1.3;
+}
+
+.arr-pipeline-step.done span {
+    color: #5cb85c;
+}
+
+.arr-pipeline-step.current span {
+    color: #1a5276;
+}
+
+.arr-pipeline-line {
+    flex: 1;
+    height: 3px;
+    background: #c3c4c7;
+    min-width: 30px;
+    margin-bottom: 28px;
+}
+
+.arr-pipeline-line.done {
+    background: #5cb85c;
+}
+
+.arr-status-change {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+    margin-top: 10px;
+}
+
+.arr-status-change h4 {
+    margin: 0 0 12px;
+}
+
+/* === Notificações === */
+.arr-notif-box {
+    max-width: 700px;
+}
+
+.arr-notif-box h4 {
+    margin: 0 0 8px;
+}
+
+.arr-notif-form {
+    margin-top: 16px;
+}
+
+.arr-notif-field {
+    margin-bottom: 12px;
+}
+
+.arr-notif-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+.arr-notif-field select {
+    min-width: 280px;
+}
+
+/* === Timeline === */
+.arr-timeline {
+    position: relative;
+    padding-left: 32px;
+}
+
+.arr-timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e0e0e0;
+}
+
+.arr-timeline-item {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.arr-timeline-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.arr-timeline-dot {
+    position: absolute;
+    left: -26px;
+    top: 2px;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    z-index: 1;
+}
+
+.arr-timeline-content {
+    flex: 1;
+}
+
+.arr-timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+
+.arr-timeline-header strong {
+    font-size: 13px;
+    color: #1d2327;
+}
+
+.arr-timeline-header time {
+    font-size: 12px;
+    color: #999;
+}
+
+.arr-timeline-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #50575e;
+    line-height: 1.5;
+}
