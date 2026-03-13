@@ -447,6 +447,12 @@ class Leilao_Consultas {
             if (document.getElementById('listaMinhasConsultas')) {
                 carregarMinhas();
             }
+
+            // Auto-abrir modal se URL tiver hash com nome do serviço
+            var hash = window.location.hash.replace('#', '');
+            if (hash && SERVICOS[hash]) {
+                window.abrirConsulta(hash);
+            }
         })();
         </script>
         <?php
