@@ -149,8 +149,11 @@ class Leilao_Consultas {
     /* ------------------------------------------------------------------ */
 
     public static function shortcode_consultas(): string {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $user        = wp_get_current_user();
-        $is_logged   = is_user_logged_in();
+        $is_logged   = is_user_logged_in() || !empty($_SESSION['user_id']);
         $nonce       = wp_create_nonce('leilao_nonce');
         $pix_key     = get_option('leilao_pix_key', 'contato@qatarleiloes.com.br');
         $pix_nome    = get_option('leilao_pix_nome', 'Qatar Leilões');
@@ -309,7 +312,7 @@ class Leilao_Consultas {
 
                     <?php if (!$is_logged): ?>
                     <div class="consulta-login-msg">
-                        <p>Faça <a href="<?php echo home_url('/login-leilao/'); ?>">login</a> ou <a href="<?php echo home_url('/registro-leilao/'); ?>">crie uma conta</a> para solicitar consultas.</p>
+                        <p>Faça <a href="#" onclick="abrirAuth('login');return false;">login</a> ou <a href="#" onclick="abrirAuth('cadastro');return false;">crie uma conta</a> para solicitar consultas.</p>
                     </div>
                     <?php else: ?>
                     <form id="formConsulta" class="consulta-form">

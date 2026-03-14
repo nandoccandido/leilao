@@ -168,7 +168,7 @@ function handleLogin(e){
     .then(function(r){return r.json()})
     .then(function(d){
         btn.disabled=false;btn.textContent=txt;
-        if(d.ok){mostrarToast('sucesso','Login realizado!','Bem-vindo de volta!');fecharAuth();verificarSessao()}
+        if(d.ok){mostrarToast('sucesso','Login realizado!','Bem-vindo de volta!');fecharAuth();if(window.location.pathname.indexOf('/consultas')===0){setTimeout(function(){window.location.reload()},600)}else{verificarSessao()}}
         else{mostrarToast('erro','Erro no login',d.erro||'E-mail ou senha incorretos')}
     }).catch(function(){btn.disabled=false;btn.textContent=txt;mostrarToast('erro','Erro','Falha na comunicação')});
     return false;
@@ -187,7 +187,7 @@ function handleCadastro(e){
     .then(function(r){return r.json()})
     .then(function(d){
         btn.disabled=false;btn.textContent=txt;
-        if(d.ok){mostrarToast('sucesso','Conta criada!','Bem-vindo ao Qatar Leilões!');fecharAuth();verificarSessao()}
+        if(d.ok){mostrarToast('sucesso','Conta criada!','Bem-vindo ao Qatar Leilões!');fecharAuth();if(window.location.pathname.indexOf('/consultas')===0){setTimeout(function(){window.location.reload()},600)}else{verificarSessao()}}
         else{mostrarToast('erro','Erro no cadastro',d.erro||'Não foi possível criar a conta')}
     }).catch(function(){btn.disabled=false;btn.textContent=txt;mostrarToast('erro','Erro','Falha na comunicação')});
     return false;
